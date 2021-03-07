@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <style>
+        body{
+            margin: 5%;
+        }
+        .heading{
+            margin-bottom: 2rem;
+        }
+        input[name="title"] {
+            display: inline-block;
+            width: 25rem;
+            margin-right: -8px;
+            font-size:24px;
+            border: 2px solid #D0D0D0;
+            background-color: #D0D0D0;
+        }
+        .button{
+            display: inline-block;
+            font-size:24px;
+            width: 10rem;
+            color: white;
+            background-color: black;
+            border: 2px solid transparent;
+        }
+        .top-level{
+            margin-top: 2rem;
+        }
+        .task{
+            font-size: 24px;
+            margin-top: 1rem;
+            background-color: #D0D0D0;
+            border-right: 4px solid black;
+        }
+        a{
+            float: right;
+            margin-right: 10px;
+        }
+        strike, span{
+            background-color: #D0D0D0;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="heading">Todo App</h1>
+
+    <form method="POST" action="/" autocomplete="off">
+        {% csrf_token %}
+        {{form.title}}
+        <button class="button" type='submit'>Add Task</button>
+    </form>
+    <div class="top-level row col-lg-12">
+        {% for task in tasks %}
+        <div class="task col-lg-4">
+            {% if task.complete == True %}
+            <strike>{{task}}</strike>
+            {% else %}
+            <span>{{task}}</span>
+            {% endif %}
+            <a href="{% url 'update' task.id %}"><i style="color: forestgreen;" class="far fa-edit"></i></a>
+            <a href="{% url 'delete' task.id %}"><i style="color: red;" class="far fa-trash-alt"></i></a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
